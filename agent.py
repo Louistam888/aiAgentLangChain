@@ -9,7 +9,7 @@ APIKEY = os.getenv("OPENAI_API_KEY")
 
 os.environ["OPENAI_API_KEY"] = APIKEY
 
-# temperature is degree of hallucation
+# temperature is degree of hallucation in responses
 llm = OpenAI(temperature=0) 
 
 search = DuckDuckGoSearchResults()
