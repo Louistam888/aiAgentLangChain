@@ -1,16 +1,18 @@
-import os 
-from langchain.llms import OpenAI
-from langchain.agents import initialize_agent, Tool 
-from langchain.agents import AgentType
-from langchain.tools import DuckDuckGoSearchRun 
-APIKEY = os.getenv("APIKEY")
+import os
+from langchain_community.llms import OpenAI
+from langchain.agents import Tool, initialize_agent, AgentType
+from langchain_community.tools import DuckDuckGoSearchResults
+from dotenv import load_dotenv
+
+load_dotenv() 
+APIKEY = os.getenv("OPENAI_API_KEY")
 
 os.environ["OPENAI_API_KEY"] = APIKEY
 
 # temperature is degree of hallucation
 llm = OpenAI(temperature=0) 
 
-search = DuckDuckGoSearchRun()
+search = DuckDuckGoSearchResults()
 tools = [
     Tool(
         name="DuckDuckGo Search",
@@ -26,3 +28,9 @@ agent = initialize_agent(
     agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
     verbose=True,
 )
+
+try:
+    response = agent.run("What is the current price of bitcoin?")
+    print(response)
+except Exception as e:
+    print(f"An error occurred: {e}")
